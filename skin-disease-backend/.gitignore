@@ -1,0 +1,105 @@
+# ==========================================
+# Maven
+# ==========================================
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+
+# ==========================================
+# Spring Boot
+# ==========================================
+*.log
+logs/
+
+
+# ==========================================
+# Uploaded files
+# ==========================================
+uploads/
+skin-images/
+*.jpg
+*.jpeg
+*.png
+*.webp
+
+
+# ==========================================
+# Environment / Secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+
+application-local.properties
+application-dev.properties
+application-prod.properties
+application-secret.properties
+
+*.key
+*.pem
+*.p12
+*.jks
+
+
+# ==========================================
+# Eclipse / STS
+# ==========================================
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.springBeans
+.sts4-cache
+
+
+# ==========================================
+# IntelliJ IDEA
+# ==========================================
+.idea/
+*.iws
+*.iml
+*.ipr
+
+
+# ==========================================
+# NetBeans
+# ==========================================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+
+# ==========================================
+# VS Code
+# ==========================================
+.vscode/
+!.vscode/extensions.json
+
+
+# ==========================================
+# Operating System
+# ==========================================
+.DS_Store
+Thumbs.db
+
+
+# ==========================================
+# Temporary files
+# ==========================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+
+# Application configuration containing secrets
+src/main/resources/application.properties

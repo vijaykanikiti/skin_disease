@@ -1,0 +1,593 @@
+/* =========================================================
+   ANALYZE PAGE
+========================================================= */
+
+.analyze-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: #172033;
+  padding-bottom: 50px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.analyze-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e7eaf0;
+  padding: 30px 42px;
+}
+
+.analyze-header > div {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.analyze-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 7px;
+  color: #2563eb;
+}
+
+.analyze-title svg {
+  flex-shrink: 0;
+}
+
+.analyze-title h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.analyze-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.analyze-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 35px 42px;
+}
+
+.analyze-content > * {
+  width: 100%;
+}
+
+
+/* =========================================================
+   TWO COLUMN LAYOUT
+========================================================= */
+
+.analyze-content {
+  display: block;
+}
+
+.analyze-upload-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e9f0;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+  box-sizing: border-box;
+}
+
+.analyze-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 22px;
+}
+
+
+/* =========================================================
+   UPLOAD CARD HEADER
+========================================================= */
+
+.upload-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.upload-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2563eb;
+}
+
+.upload-title svg {
+  flex-shrink: 0;
+}
+
+.upload-title h2 {
+  margin: 0;
+  font-size: 23px;
+  font-weight: 700;
+  color: #172033;
+}
+
+.upload-card-header p {
+  margin: 7px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   UPLOAD DROPZONE
+========================================================= */
+
+.upload-dropzone {
+  min-height: 330px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  background: #f8fafc;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.upload-dropzone:hover {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.upload-dropzone:active {
+  transform: scale(0.995);
+}
+
+.upload-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #dbeafe;
+  color: #2563eb;
+
+  margin-bottom: 18px;
+}
+
+.upload-dropzone h3 {
+  margin: 0 0 8px;
+  color: #172033;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.upload-dropzone p {
+  margin: 0 0 8px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.upload-dropzone span {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+.preview-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+
+  background: #f1f5f9;
+  border-radius: 16px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e2e8f0;
+}
+
+.skin-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+
+/* =========================================================
+   REMOVE IMAGE BUTTON
+========================================================= */
+
+.remove-image-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  width: 38px;
+  height: 38px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ef4444;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.remove-image-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   SELECTED FILE
+========================================================= */
+
+.selected-file {
+  margin-top: 15px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  padding: 14px 16px;
+
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  color: #334155;
+}
+
+.selected-file > svg {
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.selected-file div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.selected-file strong {
+  font-size: 14px;
+  color: #334155;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-file small {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.analyze-error {
+  margin-top: 15px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 13px 15px;
+
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+
+  background: #fef2f2;
+  color: #dc2626;
+
+  font-size: 14px;
+}
+
+.analyze-error svg {
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.analyze-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 22px;
+}
+
+.clear-btn,
+.analyze-btn {
+  min-height: 45px;
+
+  border-radius: 10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 0 19px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.clear-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+
+.clear-btn:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.analyze-btn {
+  background: #2563eb;
+  border: 1px solid #2563eb;
+  color: #ffffff;
+  min-width: 155px;
+}
+
+.analyze-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.clear-btn:disabled,
+.analyze-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* =========================================================
+   LOADING SPINNER
+========================================================= */
+
+.spin {
+  animation: analyzeSpin 1s linear infinite;
+}
+
+@keyframes analyzeSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   INFORMATION CARDS
+========================================================= */
+
+.info-card {
+  background: #ffffff;
+  border: 1px solid #e5e9f0;
+  border-radius: 16px;
+
+  padding: 22px;
+
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+}
+
+.info-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 14px;
+
+  color: #2563eb;
+}
+
+.info-card-header svg {
+  flex-shrink: 0;
+}
+
+.info-card-header h3 {
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  color: #172033;
+}
+
+.info-card p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.info-card small {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   INFORMATION LIST
+========================================================= */
+
+.info-card ul {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+
+  color: #475569;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.info-card li svg {
+  color: #22c55e;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+
+/* =========================================================
+   IMPORTANT CARD
+========================================================= */
+
+.important-card {
+  background: #fffaf0;
+  border-color: #fed7aa;
+}
+
+.important-card .info-card-header {
+  color: #ea580c;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .analyze-header {
+    padding: 25px;
+  }
+
+  .analyze-content {
+    padding: 25px;
+  }
+
+  .analyze-info {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .analyze-header {
+    padding: 22px 18px;
+  }
+
+  .analyze-title h1 {
+    font-size: 27px;
+  }
+
+  .analyze-content {
+    padding: 18px;
+  }
+
+  .analyze-upload-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .upload-dropzone {
+    min-height: 270px;
+  }
+
+  .preview-container {
+    height: 280px;
+  }
+
+  .analyze-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .clear-btn,
+  .analyze-btn {
+    width: 100%;
+  }
+
+  .analyze-info {
+    grid-template-columns: 1fr;
+  }
+
+}
