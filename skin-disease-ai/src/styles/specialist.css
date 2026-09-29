@@ -1,0 +1,769 @@
+/* =====================================================
+   SPECIALIST RECOMMENDATION
+===================================================== */
+
+.specialist-recommendation-section {
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 22px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.07);
+}
+
+
+/* =====================================================
+   SECTION HEADER
+===================================================== */
+
+.specialist-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.specialist-header-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f3ff;
+    color: #2563eb;
+}
+
+.specialist-section-header h2 {
+    margin: 0 0 7px;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.specialist-section-header p {
+    margin: 0;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   RECOMMENDED SPECIALIST TYPE
+===================================================== */
+
+.recommended-specialist-type {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.specialist-type-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.recommended-specialist-type span {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 3px;
+}
+
+.recommended-specialist-type strong {
+    display: block;
+    font-size: 17px;
+    color: #111827;
+}
+
+
+/* =====================================================
+   SPECIALIST GRID
+===================================================== */
+
+.specialist-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(280px, 1fr)
+    );
+    gap: 20px;
+}
+
+
+/* =====================================================
+   SPECIALIST CARD
+===================================================== */
+
+.specialist-card {
+    padding: 22px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    transition: all 0.25s ease;
+}
+
+.specialist-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+}
+
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+
+.specialist-card-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.specialist-avatar {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f3ff;
+    color: #2563eb;
+}
+
+.specialist-card-header h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    color: #111827;
+}
+
+.specialist-card-header span {
+    font-size: 13px;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   SPECIALIST DETAILS
+===================================================== */
+
+.specialist-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 15px;
+    color: #475569;
+}
+
+.specialist-detail svg {
+    margin-top: 2px;
+    color: #2563eb;
+    min-width: 17px;
+}
+
+.specialist-detail small {
+    display: block;
+    color: #94a3b8;
+    font-size: 11px;
+    margin-bottom: 2px;
+}
+
+.specialist-detail strong {
+    display: block;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.specialist-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.specialist-actions a {
+    flex: 1;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.specialist-call-btn {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.specialist-call-btn:hover {
+    background: #1d4ed8;
+}
+
+.specialist-email-btn {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.specialist-email-btn:hover {
+    background: #dbeafe;
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.specialist-loading {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #64748b;
+}
+
+.specialist-loader {
+    width: 22px;
+    height: 22px;
+    border: 3px solid #dbeafe;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: specialistSpin 0.8s linear infinite;
+}
+
+@keyframes specialistSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.specialist-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.specialist-empty {
+    text-align: center;
+    padding: 35px 20px;
+    border-radius: 15px;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.specialist-empty svg {
+    color: #94a3b8;
+    margin-bottom: 10px;
+}
+
+.specialist-empty h3 {
+    margin: 5px 0 8px;
+    color: #334155;
+    font-size: 16px;
+}
+
+.specialist-empty p {
+    margin: 0;
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   MEDICAL NOTE
+===================================================== */
+
+.specialist-medical-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-top: 22px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.specialist-medical-note svg {
+    min-width: 17px;
+    margin-top: 2px;
+    color: #64748b;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .specialist-recommendation-section {
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .specialist-section-header {
+        gap: 11px;
+    }
+
+    .specialist-header-icon {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+    }
+
+    .specialist-section-header h2 {
+        font-size: 19px;
+    }
+
+    .specialist-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .specialist-actions {
+        flex-direction: column;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   NEARBY SPECIALISTS / DOCTORS
+   ========================================================= */
+
+.nearby-doctors-location-box {
+  margin-top: 24px;
+  padding: 22px;
+  border: 1px solid #dbe5f1;
+  border-radius: 18px;
+  background: #f8fbff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.nearby-doctors-location-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nearby-doctors-location-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 14px;
+  background: #e8f1ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nearby-doctors-location-content h3 {
+  margin: 0 0 5px;
+  font-size: 19px;
+  color: #172033;
+}
+
+.nearby-doctors-location-content p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* FIND LOCATION BUTTON */
+
+.specialist-location-btn {
+  border: none;
+  outline: none;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 12px 19px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.specialist-location-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.specialist-location-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* LOCATION SUCCESS */
+
+.location-success-message {
+  margin-top: 14px;
+  padding: 13px 16px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   NEARBY DOCTOR RESULTS
+   ========================================================= */
+
+.nearby-doctors-results {
+  margin-top: 30px;
+}
+
+.nearby-doctors-results-header {
+  margin-bottom: 18px;
+}
+
+.nearby-doctors-results-header h3 {
+  margin: 0 0 5px;
+  font-size: 22px;
+  color: #172033;
+}
+
+.nearby-doctors-results-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* DOCTOR GRID */
+
+.nearby-doctor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+
+/* DOCTOR CARD */
+
+.nearby-doctor-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 7px 24px rgba(15, 23, 42, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nearby-doctor-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.11);
+}
+
+
+/* CARD HEADER */
+
+.nearby-doctor-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.nearby-doctor-icon {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  border-radius: 50%;
+  background: #eaf2ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nearby-doctor-header h4 {
+  margin: 0 0 5px;
+  font-size: 18px;
+  color: #172033;
+}
+
+.nearby-doctor-header span {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* DOCTOR DETAILS */
+
+.nearby-doctor-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 16px;
+  color: #475569;
+}
+
+.nearby-doctor-detail svg {
+  min-width: 18px;
+  color: #2563eb;
+  margin-top: 2px;
+}
+
+.nearby-doctor-detail div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.nearby-doctor-detail small {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.nearby-doctor-detail strong {
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* DISTANCE */
+
+.nearby-doctor-distance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: #f0f7ff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* RATING */
+
+.nearby-doctor-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 13px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* PHONE */
+
+.nearby-doctor-phone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 13px;
+  color: #475569;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.nearby-doctor-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.nearby-call-btn,
+.nearby-directions-btn {
+  min-height: 42px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nearby-call-btn {
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.nearby-call-btn:hover {
+  background: #1d4ed8;
+}
+
+.nearby-directions-btn {
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.nearby-directions-btn:hover {
+  background: #dbeafe;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.nearby-empty {
+  margin-top: 20px;
+  padding: 35px 20px;
+  text-align: center;
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+  background: #f8fafc;
+  color: #64748b;
+}
+
+.nearby-empty svg {
+  margin-bottom: 8px;
+  color: #64748b;
+}
+
+.nearby-empty h3 {
+  margin: 5px 0;
+  color: #334155;
+}
+
+.nearby-empty p {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVENESS
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .nearby-doctors-location-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .specialist-location-btn {
+    width: 100%;
+  }
+
+  .nearby-doctor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nearby-doctor-actions {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* SMALL MOBILE */
+
+@media (max-width: 480px) {
+
+  .nearby-doctors-location-box {
+    padding: 16px;
+  }
+
+  .nearby-doctors-location-content {
+    align-items: flex-start;
+  }
+
+  .nearby-doctors-location-content h3 {
+    font-size: 17px;
+  }
+
+  .nearby-doctor-card {
+    padding: 16px;
+  }
+
+  .nearby-doctor-header h4 {
+    font-size: 16px;
+  }
+
+}
+
+
+

@@ -30,6 +30,8 @@ import {
 
 import { ThemeContext } from "../context/ThemeContext";
 
+import SkinChatbot from "../components/SkinChatbot";
+
 import "../styles/dashboard.css";
 
 
@@ -1065,6 +1067,7 @@ function Dashboard() {
                       </div>
 
                     )
+
                   )
 
                 ) : (
@@ -1285,6 +1288,14 @@ function Dashboard() {
         </div>
 
       </main>
+
+
+      {/* ==========================================
+          AI SKINCARE CHATBOT
+      ========================================== */}
+
+      <SkinChatbot />
+
 
     </div>
 

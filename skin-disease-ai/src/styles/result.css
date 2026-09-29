@@ -649,3 +649,129 @@
   }
 
 }
+
+
+
+
+
+
+
+/* =========================================================
+   COPY NUMBER BUTTON
+========================================================= */
+
+.specialist-contact .specialist-copy-btn {
+  flex: 1 !important;
+  width: 100% !important;
+  min-height: 44px !important;
+
+  padding: 10px 16px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  box-sizing: border-box !important;
+
+  border: 1px solid #1746a2 !important;
+  border-radius: 10px !important;
+
+  background: #1746a2 !important;
+  color: #ffffff !important;
+
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease !important;
+}
+
+.specialist-contact .specialist-copy-btn:hover {
+  background: #12387f !important;
+  border-color: #12387f !important;
+}
+
+.specialist-contact .specialist-copy-btn:active {
+  transform: scale(0.98);
+}
+
+
+
+
+
+/* =========================================================
+   SPECIALIST COPY NUMBER BUTTON - FINAL
+========================================================= */
+
+button.specialist-copy-btn {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 100% !important;
+  flex: 1 1 0 !important;
+
+  height: 44px !important;
+  min-height: 44px !important;
+
+  margin: 0 !important;
+  padding: 0 16px !important;
+
+  box-sizing: border-box !important;
+
+  background: #1746a2 !important;
+  background-color: #1746a2 !important;
+
+  color: #ffffff !important;
+
+  border: 1px solid #1746a2 !important;
+  border-radius: 10px !important;
+
+  outline: none !important;
+
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+
+  text-align: center !important;
+
+  cursor: pointer !important;
+
+  box-shadow: none !important;
+
+  transition: all 0.2s ease !important;
+}
+
+button.specialist-copy-btn:hover {
+  background: #12387f !important;
+  background-color: #12387f !important;
+
+  border-color: #12387f !important;
+
+  color: #ffffff !important;
+}
+
+button.specialist-copy-btn:focus,
+button.specialist-copy-btn:focus-visible {
+  outline: none !important;
+
+  background: #1746a2 !important;
+  background-color: #1746a2 !important;
+
+  color: #ffffff !important;
+
+  box-shadow: 0 0 0 3px rgba(23, 70, 162, 0.15) !important;
+}
+
+button.specialist-copy-btn:active {
+  transform: scale(0.98);
+}

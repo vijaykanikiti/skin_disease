@@ -7,7 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/images")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "http://localhost:5174"
+})
 public class ImageUploadController {
 
     private final ImageStorageService imageStorageService;

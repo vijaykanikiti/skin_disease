@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import {
@@ -12,10 +12,15 @@ import {
   Info,
   ShieldCheck,
   Sparkles,
-  Stethoscope
+  Stethoscope,
+  Phone,
+  MapPin,
 } from "lucide-react";
 
 import "../styles/result.css";
+import "../styles/specialist.css";
+import { getUserLocation } from "../services/locationService";
+
 
 function Result() {
   const navigate = useNavigate();
@@ -29,7 +34,276 @@ function Result() {
   const fileName = location.state?.fileName;
   const backendResult = location.state?.result;
 
+  // --------------------------------------------------
+  // USER LOCATION STATE
+  // --------------------------------------------------
 
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [locationError, setLocationError] = useState("");
+
+  // --------------------------------------------------
+  // NEARBY DOCTOR STATE
+  // --------------------------------------------------
+
+  const [nearbyDoctors, setNearbyDoctors] = useState([]);
+  const [nearbyLoading, setNearbyLoading] = useState(false);
+  const [nearbyError, setNearbyError] = useState("");
+
+  // --------------------------------------------------
+  // REAL BACKEND DATA
+  // --------------------------------------------------
+
+  const conditionName =
+    backendResult?.conditionName ||
+    "Uncertain / Needs Professional Review";
+
+  const confidence = Number(
+    backendResult?.confidence || 0
+  );
+
+  const information =
+    backendResult?.information ||
+    "No additional information is available.";
+
+  // --------------------------------------------------
+  // DISEASE → SPECIALIST MAPPING
+  // --------------------------------------------------
+
+  const getSpecialistType = (condition) => {
+
+    if (!condition) {
+      return "Dermatologist";
+    }
+
+    const disease = condition
+      .toLowerCase()
+      .trim();
+
+    // Acne
+    if (
+      disease.includes("acne") ||
+      disease.includes("pimple")
+    ) {
+      return "Dermatologist";
+    }
+
+    // Eczema
+    if (
+      disease.includes("eczema") ||
+      disease.includes("dermatitis")
+    ) {
+      return "Dermatologist";
+    }
+
+    // Psoriasis
+    if (
+      disease.includes("psoriasis")
+    ) {
+      return "Dermatologist";
+    }
+
+    // Fungal infection
+    if (
+      disease.includes("fungal") ||
+      disease.includes("ringworm") ||
+      disease.includes("tinea")
+    ) {
+      return "Dermatologist";
+    }
+
+    // Skin allergy
+    if (
+      disease.includes("allergy") ||
+      disease.includes("allergic") ||
+      disease.includes("urticaria") ||
+      disease.includes("hives")
+    ) {
+      return "Dermatologist";
+    }
+
+    // Suspicious mole / lesion
+    if (
+      disease.includes("mole") ||
+      disease.includes("lesion") ||
+      disease.includes("melanoma")
+    ) {
+      return "Dermatologist";
+    }
+
+    // Vitiligo
+    if (
+      disease.includes("vitiligo")
+    ) {
+      return "Dermatologist";
+    }
+
+    // General fallback
+    return "Dermatologist";
+  };
+
+  const recommendedSpecialist =
+    getSpecialistType(conditionName);
+
+  // --------------------------------------------------
+  // GET USER LOCATION
+  // --------------------------------------------------
+
+  const handleFindNearbyDoctors = async () => {
+    try {
+      setLocationLoading(true);
+      setNearbyLoading(true);
+      setLocationError("");
+      setNearbyError("");
+      setNearbyDoctors([]);
+
+      // 1. Get user's current browser location
+      const locationData = await getUserLocation();
+
+      setUserLocation(locationData);
+
+      console.log("User Latitude:", locationData.latitude);
+      console.log("User Longitude:", locationData.longitude);
+
+      // 2. Send location + AI-selected specialist to Spring Boot
+      const response = await fetch(
+        "http://localhost:8080/api/doctors/nearby",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            latitude: locationData.latitude,
+            longitude: locationData.longitude,
+            specialistType: recommendedSpecialist,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        let errorMessage = "Unable to find nearby specialists.";
+
+        try {
+          const errorText = await response.text();
+          if (errorText) {
+            console.error("Nearby Doctor API Response:", errorText);
+          }
+        } catch (readError) {
+          console.error("Could not read API error:", readError);
+        }
+
+        throw new Error(errorMessage);
+      }
+
+      // 3. Read nearby places returned by Spring Boot
+      const data = await response.json();
+
+      console.log("Nearby doctors:", data);
+
+      setNearbyDoctors(
+        Array.isArray(data) ? data : []
+      );
+
+    } catch (error) {
+      console.error("Nearby Doctor Error:", error);
+
+      // Location-specific messages
+      if (error?.code === 1) {
+        setLocationError(
+          "Location permission was denied. Please allow location access in your browser."
+        );
+      } else if (error?.code === 2) {
+        setLocationError(
+          "Your location could not be determined."
+        );
+      } else if (error?.code === 3) {
+        setLocationError(
+          "Location request timed out. Please try again."
+        );
+      } else {
+        setNearbyError(
+          error?.message ||
+          "Unable to find nearby specialists. Please try again."
+        );
+      }
+
+      if (!userLocation) {
+        setUserLocation(null);
+      }
+
+    } finally {
+      setLocationLoading(false);
+      setNearbyLoading(false);
+    }
+  };
+
+  // --------------------------------------------------
+  // DISTANCE CALCULATION
+  // --------------------------------------------------
+
+  const calculateDistance = (
+    lat1,
+    lon1,
+    lat2,
+    lon2
+  ) => {
+    if (
+      lat1 == null ||
+      lon1 == null ||
+      lat2 == null ||
+      lon2 == null
+    ) {
+      return null;
+    }
+
+    const toRadians = (value) =>
+      (value * Math.PI) / 180;
+
+    const earthRadiusKm = 6371;
+
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRadians(lat1)) *
+        Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) ** 2;
+
+    const distance =
+      2 *
+      earthRadiusKm *
+      Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1 - a)
+      );
+
+    return distance;
+  };
+
+  const formatDistance = (doctor) => {
+    if (!userLocation) {
+      return null;
+    }
+
+    const distance = calculateDistance(
+      userLocation.latitude,
+      userLocation.longitude,
+      doctor.latitude,
+      doctor.longitude
+    );
+
+    if (distance == null) {
+      return null;
+    }
+
+    if (distance < 1) {
+      return `${Math.round(distance * 1000)} m away`;
+    }
+
+    return `${distance.toFixed(1)} km away`;
+  };
   // --------------------------------------------------
   // IF NO RESULT IS AVAILABLE
   // --------------------------------------------------
@@ -52,11 +326,13 @@ function Result() {
             <div>
 
               <div className="result-title">
+
                 <Sparkles size={21} />
 
                 <h1>
                   Analysis Result
                 </h1>
+
               </div>
 
               <p>
@@ -68,7 +344,6 @@ function Result() {
           </div>
 
         </header>
-
 
         <main className="result-content">
 
@@ -94,12 +369,10 @@ function Result() {
 
             </div>
 
-
             <p>
               Please upload a skin image and perform an
               analysis first.
             </p>
-
 
             <button
               className="result-primary-btn"
@@ -116,26 +389,6 @@ function Result() {
       </div>
     );
   }
-
-
-  // --------------------------------------------------
-  // REAL BACKEND DATA
-  // --------------------------------------------------
-
-  const conditionName =
-    backendResult.conditionName ||
-    "Uncertain / Needs Professional Review";
-
-
-  const confidence = Number(
-    backendResult.confidence || 0
-  );
-
-
-  const information =
-    backendResult.information ||
-    "No additional information is available.";
-
 
   // --------------------------------------------------
   // CONVERT STRING TO LIST
@@ -154,27 +407,36 @@ function Result() {
     return value
       .split(/[.;]/)
       .map((item) => item.trim())
-      .filter((item) => item.length > 0);
-
+      .filter(
+        (item) => item.length > 0
+      );
   };
 
+  // --------------------------------------------------
+  // SYMPTOMS
+  // --------------------------------------------------
 
   const symptoms =
     convertToList(
       backendResult.symptoms
     );
 
+  // --------------------------------------------------
+  // WARNING SIGNS
+  // --------------------------------------------------
 
   const warningSigns =
     convertToList(
       backendResult.warningSigns
     );
 
+  // --------------------------------------------------
+  // PREVENTION
+  // --------------------------------------------------
 
   const prevention =
     backendResult.prevention ||
     "Follow general skin-care practices and consult a qualified healthcare professional when appropriate.";
-
 
   // --------------------------------------------------
   // DATE
@@ -186,16 +448,15 @@ function Result() {
       ).toLocaleString()
     : "Current session";
 
-
   // --------------------------------------------------
   // SAFE CONFIDENCE VALUE
   // --------------------------------------------------
 
-  const safeConfidence = Math.min(
-    Math.max(confidence, 0),
-    100
-  );
-
+  const safeConfidence =
+    Math.min(
+      Math.max(confidence, 0),
+      100
+    );
 
   // --------------------------------------------------
   // RESULT PAGE
@@ -203,7 +464,6 @@ function Result() {
 
   return (
     <div className="result-page">
-
 
       {/* ==========================================
           HEADER
@@ -220,7 +480,6 @@ function Result() {
             <ArrowLeft size={18} />
           </button>
 
-
           <div>
 
             <div className="result-title">
@@ -233,7 +492,6 @@ function Result() {
 
             </div>
 
-
             <p>
               AI-assisted visual analysis summary
             </p>
@@ -242,19 +500,15 @@ function Result() {
 
         </div>
 
-
         <button
           className="history-header-btn"
           onClick={() => navigate("/history")}
         >
           <History size={17} />
-
           History
-
         </button>
 
       </header>
-
 
 
       {/* ==========================================
@@ -297,7 +551,6 @@ function Result() {
 
             )}
 
-
             {fileName && (
 
               <div className="result-file-name">
@@ -313,7 +566,6 @@ function Result() {
             )}
 
           </div>
-
 
 
           {/* RESULT INFORMATION */}
@@ -335,9 +587,7 @@ function Result() {
             {/* LABEL */}
 
             <span className="prediction-label">
-
               AI-ASSISTED RESULT
-
             </span>
 
 
@@ -365,13 +615,11 @@ function Result() {
             </p>
 
 
-
             {/* ====================================
                 CONFIDENCE
             ==================================== */}
 
             <div className="confidence-section">
-
 
               <div className="confidence-header">
 
@@ -379,13 +627,11 @@ function Result() {
                   AI Classification Score
                 </span>
 
-
                 <strong>
                   {safeConfidence.toFixed(2)}%
                 </strong>
 
               </div>
-
 
               <div className="confidence-track">
 
@@ -397,7 +643,6 @@ function Result() {
                 />
 
               </div>
-
 
               <small>
 
@@ -412,7 +657,6 @@ function Result() {
           </div>
 
         </section>
-
 
 
         {/* ========================================
@@ -431,11 +675,8 @@ function Result() {
             <div className="result-card-heading">
 
               <div className="result-card-icon blue">
-
                 <Info size={20} />
-
               </div>
-
 
               <div>
 
@@ -451,13 +692,11 @@ function Result() {
 
             </div>
 
-
             <p>
               {information}
             </p>
 
           </div>
-
 
 
           {/* ======================================
@@ -469,11 +708,8 @@ function Result() {
             <div className="result-card-heading">
 
               <div className="result-card-icon orange">
-
                 <Activity size={20} />
-
               </div>
-
 
               <div>
 
@@ -488,7 +724,6 @@ function Result() {
               </div>
 
             </div>
-
 
             {symptoms.length > 0 ? (
 
@@ -524,7 +759,6 @@ function Result() {
           </div>
 
 
-
           {/* ======================================
               WARNING SIGNS
           ====================================== */}
@@ -534,11 +768,8 @@ function Result() {
             <div className="result-card-heading">
 
               <div className="result-card-icon red">
-
                 <AlertTriangle size={20} />
-
               </div>
-
 
               <div>
 
@@ -553,7 +784,6 @@ function Result() {
               </div>
 
             </div>
-
 
             {warningSigns.length > 0 ? (
 
@@ -588,7 +818,6 @@ function Result() {
           </div>
 
 
-
           {/* ======================================
               PREVENTION
           ====================================== */}
@@ -598,11 +827,8 @@ function Result() {
             <div className="result-card-heading">
 
               <div className="result-card-icon green">
-
                 <ShieldCheck size={20} />
-
               </div>
-
 
               <div>
 
@@ -618,7 +844,6 @@ function Result() {
 
             </div>
 
-
             <p>
               {prevention}
             </p>
@@ -627,6 +852,307 @@ function Result() {
 
         </section>
 
+
+        {/* =================================================
+            SPECIALIST RECOMMENDATION
+        ================================================= */}
+
+        <section className="specialist-recommendation-section">
+
+          {/* HEADER */}
+
+          <div className="specialist-section-header">
+
+            <div className="specialist-header-icon">
+              <Stethoscope size={24} />
+            </div>
+
+            <div>
+
+              <h2>
+                Recommended Specialist
+              </h2>
+
+              <p>
+                Based on the AI-assisted screening result,
+                you may consider consulting a qualified
+                healthcare professional.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {/* SPECIALIST TYPE */}
+
+          <div className="recommended-specialist-type">
+
+            <div className="specialist-type-icon">
+              <Stethoscope size={20} />
+            </div>
+
+            <div>
+
+              <span>
+                Suggested Specialist
+              </span>
+
+              <strong>
+                {recommendedSpecialist}
+              </strong>
+
+            </div>
+
+          </div>
+
+          {/* USER LOCATION / NEARBY DOCTORS */}
+
+          <div className="nearby-doctors-location-box">
+
+            <div className="nearby-doctors-location-content">
+
+              <div className="nearby-doctors-location-icon">
+                <MapPin size={20} />
+              </div>
+
+              <div>
+                <h3>Find Specialists Near You</h3>
+
+                <p>
+                  Find nearby specialists based on your current location
+                  and the AI-recommended specialist type.
+                </p>
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              className="specialist-location-btn"
+              onClick={handleFindNearbyDoctors}
+              disabled={locationLoading || nearbyLoading}
+            >
+              <MapPin size={17} />
+
+              {locationLoading
+                ? "Getting Location..."
+                : nearbyLoading
+                  ? "Finding Specialists..."
+                  : userLocation
+                    ? "Search Again"
+                    : "Find Nearby Doctors"}
+            </button>
+
+          </div>
+
+          {locationError && (
+            <div className="specialist-error">
+              <AlertTriangle size={18} />
+              <span>{locationError}</span>
+            </div>
+          )}
+
+          {nearbyError && (
+            <div className="specialist-error">
+              <AlertTriangle size={18} />
+              <span>{nearbyError}</span>
+            </div>
+          )}
+
+          {userLocation && !locationError && (
+            <div className="location-success-message">
+              <CheckCircle size={17} />
+              <span>
+                Your location was detected successfully. Searching within
+                the nearby area for {recommendedSpecialist.toLowerCase()}s.
+              </span>
+            </div>
+          )}
+
+          {/* NEARBY GOOGLE PLACES RESULTS */}
+
+          {nearbyLoading && (
+            <div className="specialist-loading">
+
+              <div className="specialist-loader"></div>
+
+              <span>
+                Finding nearby {recommendedSpecialist.toLowerCase()}s...
+              </span>
+
+            </div>
+          )}
+
+          {!nearbyLoading &&
+            !nearbyError &&
+            nearbyDoctors.length > 0 && (
+
+              <div className="nearby-doctors-results">
+
+                <div className="nearby-doctors-results-header">
+                  <div>
+                    <h3>Nearby Specialists</h3>
+
+                    <p>
+                      Real nearby places returned from the location search.
+                    </p>
+                  </div>
+
+                  <span className="nearby-count">
+                    {nearbyDoctors.length} found
+                  </span>
+                </div>
+
+                <div className="nearby-doctor-grid">
+
+                  {nearbyDoctors.map((doctor, index) => {
+
+                    const distance =
+                      formatDistance(doctor);
+
+                    return (
+                      <div
+                        className="nearby-doctor-card"
+                        key={
+                          doctor.id ||
+                          `${doctor.name}-${index}`
+                        }
+                      >
+
+                        <div className="nearby-doctor-header">
+
+                          <div className="nearby-doctor-icon">
+                            <Stethoscope size={23} />
+                          </div>
+
+                          <div>
+
+                            <h4>
+                              {doctor.name ||
+                                "Doctor / Clinic"}
+                            </h4>
+
+                            <span>
+                              {recommendedSpecialist}
+                            </span>
+
+                          </div>
+
+                        </div>
+
+                        <div className="nearby-doctor-detail">
+
+                          <MapPin size={17} />
+
+                          <div>
+                            <small>Address</small>
+
+                            <strong>
+                              {doctor.address ||
+                                "Address unavailable"}
+                            </strong>
+                          </div>
+
+                        </div>
+
+                        {distance && (
+                          <div className="nearby-doctor-distance">
+
+                            <MapPin size={16} />
+
+                            <span>
+                              {distance}
+                            </span>
+
+                          </div>
+                        )}
+
+                        {doctor.rating != null && (
+                          <div className="nearby-doctor-rating">
+                            ⭐ {doctor.rating}
+                          </div>
+                        )}
+
+                        {doctor.phone && (
+                          <div className="nearby-doctor-phone">
+                            <strong>Phone:</strong>{" "}
+                            {doctor.phone}
+                          </div>
+                        )}
+
+                        <div className="nearby-doctor-actions">
+
+                          {doctor.phone && (
+                            <a
+                              href={`tel:${doctor.phone}`}
+                              className="nearby-call-btn"
+                            >
+                              <Phone size={16} />
+                              Call
+                            </a>
+                          )}
+
+                          {doctor.mapsUrl && (
+                            <a
+                              href={doctor.mapsUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="nearby-directions-btn"
+                            >
+                              <MapPin size={16} />
+                              Directions
+                            </a>
+                          )}
+
+                        </div>
+
+                      </div>
+                    );
+                  })}
+
+                </div>
+
+              </div>
+            )}
+
+          {!nearbyLoading &&
+            !nearbyError &&
+            userLocation &&
+            nearbyDoctors.length === 0 && (
+
+              <div className="nearby-empty">
+
+                <Stethoscope size={30} />
+
+                <h3>
+                  No nearby specialists found
+                </h3>
+
+                <p>
+                  No suitable places were returned near your current
+                  location. Try the search again or consult a qualified
+                  healthcare professional.
+                </p>
+
+              </div>
+            )}
+
+          {/* MEDICAL NOTE */}
+
+          <div className="specialist-medical-note">
+
+            <Info size={17} />
+
+            <span>
+              The specialist recommendation is based on
+              the category of the AI-assisted screening
+              result. It is not a medical diagnosis.
+            </span>
+
+          </div>
+
+        </section>
 
 
         {/* ========================================
@@ -647,7 +1173,6 @@ function Result() {
 
             </div>
 
-
             <span>
               Analysis generated: {createdAt}
             </span>
@@ -656,7 +1181,6 @@ function Result() {
 
 
           <div className="result-buttons">
-
 
             <button
               className="result-secondary-btn"
@@ -684,13 +1208,11 @@ function Result() {
         </section>
 
 
-
         {/* ========================================
             MEDICAL DISCLAIMER
         ======================================== */}
 
         <section className="medical-disclaimer">
-
 
           <div className="medical-disclaimer-icon">
 
@@ -698,13 +1220,11 @@ function Result() {
 
           </div>
 
-
           <div>
 
             <h3>
               Important Medical Disclaimer
             </h3>
-
 
             <p>
 
@@ -720,7 +1240,6 @@ function Result() {
 
             </p>
 
-
             <p>
 
               If you have concerning, persistent,
@@ -733,6 +1252,7 @@ function Result() {
           </div>
 
         </section>
+
 
       </main>
 
